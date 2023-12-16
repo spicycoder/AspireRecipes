@@ -2,7 +2,7 @@
 
 .NET 8 Aspire
 
-- [ ] Service Discovery / Invocation
+- [x] Service Discovery / Invocation
 - [ ] Message Queue
 - [ ] Database
 - [ ] Caching
