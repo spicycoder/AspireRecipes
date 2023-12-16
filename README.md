@@ -10,7 +10,10 @@
 
 > `Products Service`, caches `Product Details` for 5 seconds
 
-- [ ] Message Queue
+- [x] Message Queue
+
+> `Cart Service` -> `Order Service`
+
 - [ ] Database
 - [ ] Logging
 - [ ] Monitoring
