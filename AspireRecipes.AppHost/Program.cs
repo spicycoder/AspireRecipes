@@ -8,6 +8,7 @@ var ordersDatabase = builder.AddPostgresContainer("ordersDB");
 var messageQueue = builder.AddRabbitMQContainer("messageQueue");
 
 var productsService = builder.AddProject<Projects.ProductsService>("productsService")
+    .WithReference(cache)
     .WithReference(productsDatabase);
 
 var orderService = builder.AddProject<Projects.OrderService>("orderService")
@@ -15,7 +16,6 @@ var orderService = builder.AddProject<Projects.OrderService>("orderService")
     .WithReference(messageQueue);
 
 var cartService = builder.AddProject<Projects.CartService>("cartService")
-    .WithReference(cache)
     .WithReference(messageQueue)
     .WithReference(productsService);
 
