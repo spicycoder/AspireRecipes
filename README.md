@@ -2,6 +2,10 @@
 
 .NET 8 Aspire
 
+- [x] Logging - `Application & Components logging`
+
+- [x] Monitoring - `Tracing`
+
 - [x] Service Discovery / Invocation
 
 > `Cart Service` -> `Products Service`
@@ -15,8 +19,7 @@
 > `Cart Service` -> `Order Service`
 
 - [ ] Database
-- [ ] Logging
-- [ ] Monitoring
+- [ ] Deployment
 
 ## Recipe
 
