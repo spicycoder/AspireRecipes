@@ -1,6 +1,6 @@
 var builder = WebApplication.CreateBuilder(args);
 builder.AddServiceDefaults();
-
+builder.AddRabbitMQ("messageQueue");
 
 builder.Services.AddHttpClient("productsClient", httpClient =>
 {
