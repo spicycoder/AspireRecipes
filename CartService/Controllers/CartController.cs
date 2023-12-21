@@ -34,7 +34,7 @@ namespace CartService.Controllers
             }
 
             byte[] product = System.Text.Encoding.UTF8.GetBytes(JsonSerializer.Serialize(response!));
-            _channel.BasicPublish("my-exchange", "my-route", null, product);
+            _channel.BasicPublish("aspire-recipe-exchange", "orders", null, product);
 
             return Ok(response);
         }
