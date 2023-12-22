@@ -1,8 +1,12 @@
+using OrderService;
 using OrderService.Listeners;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.AddServiceDefaults();
 builder.AddRabbitMQ("messageQueue");
+builder.AddMongoDBClient("mongoDB");
+var connectionString = builder.Configuration.GetConnectionString("mongoDB");
+builder.Services.AddTransient(_ => new OrdersContext(connectionString!));
 builder.Services.AddHostedService<OrderListener>();
 
 builder.Services.AddControllers();

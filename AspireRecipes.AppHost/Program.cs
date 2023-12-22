@@ -1,18 +1,15 @@
-using Microsoft.Extensions.DependencyInjection;
-
 var builder = DistributedApplication.CreateBuilder(args);
 
-var cache = builder.AddRedisContainer("cache");
-var productsDatabase = builder.AddSqlServerContainer("productsDB");
-var ordersDatabase = builder.AddPostgresContainer("ordersDB");
-var messageQueue = builder.AddRabbitMQContainer("messageQueue");
+var cache = builder.AddRedisContainer("cache", 6379);
+var messageQueue = builder.AddRabbitMQContainer("messageQueue", 15279);
+var mongoDB = builder
+    .AddMongoDBContainer("mongoDB", 27017);
 
 var productsService = builder.AddProject<Projects.ProductsService>("productsService")
-    .WithReference(cache)
-    .WithReference(productsDatabase);
+    .WithReference(cache);
 
 var orderService = builder.AddProject<Projects.OrderService>("orderService")
-    .WithReference(ordersDatabase)
+    .WithReference(mongoDB)
     .WithReference(messageQueue);
 
 var cartService = builder.AddProject<Projects.CartService>("cartService")

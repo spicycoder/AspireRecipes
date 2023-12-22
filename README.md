@@ -20,7 +20,7 @@
 * > `Cart Service` -> `Order Service`
 * **Refer:** [Publisher](./CartService/Controllers/CartController.cs) and [Receiver](./OrderService/Listeners/OrderListener.cs)
 
-- [ ] Database
+- [x] Database
 - [ ] Deployment
 
 ## Recipe

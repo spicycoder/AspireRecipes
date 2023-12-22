@@ -1,4 +1,6 @@
-﻿using AspireRecipes.ServiceDefaults.Responses;
+﻿using AspireRecipes.ServiceDefaults.Entities;
+using AspireRecipes.ServiceDefaults.Requests;
+using AspireRecipes.ServiceDefaults.Responses;
 using Microsoft.AspNetCore.Mvc;
 using RabbitMQ.Client;
 using System.Text.Json;
@@ -23,20 +25,27 @@ namespace CartService.Controllers
             _channel = connection.CreateModel();
         }
 
-        [HttpGet]
-        public async Task<ActionResult<ProductDetails>> ReadProductDetails(int productId)
+        [HttpPost]
+        public async Task<IActionResult> PlaceOrder(OrderRequest request)
         {
-            ProductDetails? response = await _httpClient.GetFromJsonAsync<ProductDetails>($"/api/Products?id={productId}");
+            ProductDetails? response = await _httpClient.GetFromJsonAsync<ProductDetails>($"/api/Products?id={request.ProductId}");
 
             if (response == null)
             {
                 return NotFound();
             }
 
-            byte[] product = System.Text.Encoding.UTF8.GetBytes(JsonSerializer.Serialize(response!));
-            _channel.BasicPublish("aspire-recipe-exchange", "orders", null, product);
+            Order order = new()
+            {
+                Product = response!,
+                Quantity = request.Quantity,
+                Customer = request.Customer
+            };
 
-            return Ok(response);
+            byte[] orderBytes = System.Text.Encoding.UTF8.GetBytes(JsonSerializer.Serialize(order));
+            _channel.BasicPublish("aspire-recipe-exchange", "orders", null, orderBytes);
+
+            return Ok();
         }
     }
 }
